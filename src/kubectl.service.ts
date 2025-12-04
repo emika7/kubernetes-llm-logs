@@ -1,4 +1,3 @@
-// src/kubectl.service.ts
 import { Injectable } from '@nestjs/common';
 import { exec } from 'child_process';
 import * as util from 'util';
@@ -20,7 +19,7 @@ export class KubectlService {
       .filter((name: string | undefined) => !!name);
   }
 
-  // Gauti konkretaus pod'o logus (paskutinės tailLines eilutės)
+  // Gauti konkretaus pod'o logus nurodytame namespace
   async getPodLogs(
     namespace: string,
     podName: string,

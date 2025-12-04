@@ -1,12 +1,12 @@
-// src/app.module.ts
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { KubectlService } from './kubectl.service';
+import { AppService } from './app.service';
 import { KubectlController } from './kubectl.controller';
+import { LmService } from './lm.service';
 
 @Module({
   imports: [],
   controllers: [AppController, KubectlController],
-  providers: [KubectlService],
+  providers: [AppService, LmService],
 })
 export class AppModule {}
