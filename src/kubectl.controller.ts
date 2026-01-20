@@ -14,7 +14,6 @@ const execAsync = promisify(exec);
 export class KubectlController {
   constructor(private readonly lmService: LmService) {}
 
-  // GET /k8s/pods?namespace=backend
   @Get('pods')
   async getPods(@Query('namespace') namespace = 'backend') {
     const ns = namespace || 'backend';
@@ -28,7 +27,6 @@ export class KubectlController {
     return { namespace: ns, pods };
   }
 
-  // GET /k8s/logs?namespace=backend&pod=X
   @Get('logs')
   async getLogs(
     @Query('namespace') namespace = 'backend',
@@ -40,7 +38,6 @@ export class KubectlController {
 
     const ns = namespace || 'backend';
 
-    // ČIA ↓ pakeičiam į paskutines 10 eilučių
     const tailLines = 10;
 
     const { stdout } = await execAsync(
@@ -55,7 +52,6 @@ export class KubectlController {
     };
   }
 
-  // GET /k8s/health?namespace=backend&pod=X
   @Get('health')
   async getHealth(
     @Query('namespace') namespace = 'backend',
@@ -67,15 +63,12 @@ export class KubectlController {
 
     const ns = namespace || 'backend';
 
-    // Tik paskutinės 10 eilučių
     const tailLines = 10;
 
-    // Pasiimame paskutines 10 logų eilučių iš kubectl
     const { stdout } = await execAsync(
       `kubectl logs ${pod} -n ${ns} --tail=${tailLines}`,
     );
 
-    // Siunčiame šias 10 eilučių į modelį
     const analysis = await this.lmService.analyzeLogs(stdout);
 
     return {

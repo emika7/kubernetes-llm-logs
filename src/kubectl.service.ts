@@ -6,7 +6,6 @@ const execPromise = util.promisify(exec);
 
 @Injectable()
 export class KubectlService {
-  // Gauti podų sąrašą nurodytame namespace
   async listPods(namespace = 'default'): Promise<string[]> {
     const cmd = `kubectl get pods -n ${namespace} -o json`;
 
@@ -19,7 +18,6 @@ export class KubectlService {
       .filter((name: string | undefined) => !!name);
   }
 
-  // Gauti konkretaus pod'o logus nurodytame namespace
   async getPodLogs(
     namespace: string,
     podName: string,
